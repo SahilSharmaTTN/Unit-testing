@@ -1,6 +1,7 @@
 package com.demo.service;
 
 import com.demo.domain.Order;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -31,9 +32,11 @@ public class OrderServiceTest {
 
         when(emailService.sendEmail(order,"test")).thenReturn(true);
 
-        orderService.placeOrder(order,"test");
+        boolean result = orderService.placeOrder(order,"test");
 
         verify(order).setCustomerNotified(true);
+
+        Assert.assertTrue(result);
 
     }
 
@@ -45,6 +48,8 @@ public class OrderServiceTest {
         when(order.setPriceWithTax(220)).thenReturn(order);
 
         orderService.placeOrder(order);
+
+
 
         verify(emailService,atLeast(1)).sendEmail(order);
 
